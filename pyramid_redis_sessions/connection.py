@@ -86,6 +86,12 @@ def get_default_connection(request,
         redis_options.pop('host', None)
         redis_options.pop('port', None)
         redis_options.pop('db', None)
+        redis_options.pop('unix_socket_path', None)
+        redis_options.pop('connection_pool', None)
+        if 'charset' in redis_options:
+            redis_options['encoding'] = redis_options.pop('charset')
+        if 'errors' in redis_options:
+            redis_options['encoding_errors'] = redis_options.pop('errors')
         redis = redis_client.from_url(url, **redis_options)
     else:
         redis = redis_client(**redis_options)
